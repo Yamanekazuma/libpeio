@@ -163,7 +163,8 @@ LIBPEIO_INLINE const std::vector<peio::ModuleEntry>& peio::Pe::imports() {
     std::vector<ImportFunctionEntry> functions{};
 
     std::uint32_t rvaIAT = importDescriptor->FirstThunk;
-    std::uint32_t* iat = std::bit_cast<std::uint32_t*>(mmap_.data() + rvaToOffset(rvaIAT));
+    std::uint32_t* iat = std::bit_cast<std::uint32_t*>(
+        mmap_.data() + rvaToOffset(importDescriptor->OriginalFirstThunk != 0 ? importDescriptor->OriginalFirstThunk : importDescriptor->FirstThunk));
     while (*iat != 0) {
       if (((*iat) & 0x80000000) == 0) {
         // import by name
