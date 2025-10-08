@@ -224,6 +224,8 @@ class Pe {
       if (it->rva <= rva && rva < it->rva + it->size) {
         return rva - it->rva + it->offset;
       }
+    } else {
+      return rva;
     }
 
     throw std::runtime_error{"Can't resolve virtual address to offset."};
